@@ -22,4 +22,4 @@ jobs:
           remote_user: ${{ secrets.SFTP_USER }}
           remote_key: ${{ secrets.SFTP_PASSWORD }}  # SSH key
           remote_port: ${{ secrets.SFTP_PORT }}
-          rsh: "ssh -p ${{ secrets.SFTP_PORT }} -o IdentitiesOnly=yes"
+          rsh: "ssh -p ${{ secrets.SFTP_PORT }} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
