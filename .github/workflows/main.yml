@@ -18,8 +18,8 @@ jobs:
           switches: "-avzr --delete --exclude='.git' --exclude='.github'"
           path: "./"          
           remote_path: "/home/dfvosxil/be-swap-academy.nioke-studio.my.id"
-          remote_host: ${{ secrets.SFTP_HOST }}
-          remote_user: ${{ secrets.SFTP_USER }}
+          remote_host: nioke-studio.my.id
+          remote_user: dfvosxil
           remote_key: ${{ secrets.SFTP_PASSWORD }}  # SSH key
-          remote_port: ${{ secrets.SFTP_PORT }}
-          rsh: "ssh -p ${{ secrets.SFTP_PORT }} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
+          remote_port: 6401
+          rsh: "ssh -p 6401 -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
