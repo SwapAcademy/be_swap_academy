@@ -1,11 +1,12 @@
 <?php
 
+use App\Enum\User\BadgeEnum;
+use App\Enum\User\RoleEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -17,10 +18,10 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('role')->default('student'); // 'student/mentor', 'admin'
-            $table->string('profile_pic')->nullable();
-            $table->text('bio')->nullable();
-            $table->integer('credits')->default(0)->nullable(); // Poin kredit
+            $table->enum('role', RoleEnum::getValues())->default(RoleEnum::USER);
+            $table->float('progress')->nullable();
+            $table->integer('credits')->default(0)->nullable();
+            $table->integer('dashboard_preferences')->nullable();
             $table->timestamps();
         });
     }
