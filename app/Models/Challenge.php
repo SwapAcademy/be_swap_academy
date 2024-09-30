@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Challenge extends Model
 {
@@ -17,4 +18,9 @@ class Challenge extends Model
         'description',
         'reward_credits'
     ];
+
+    public function badge(): BelongsTo
+    {
+        return $this->belongsTo(Badge::class, 'badge_id');
+    }
 }
