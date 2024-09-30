@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('challenge', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('badge_id')->constrained('badge');
             $table->string('challenge_name');
-            $table->foreignId('reward_badge_id')->constrained('badge');
             $table->text('description');
             $table->integer('reward_credits');
             $table->timestamps();

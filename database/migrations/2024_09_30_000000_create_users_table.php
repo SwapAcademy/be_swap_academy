@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('fullname');
+            $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->float('progress')->nullable();
             $table->integer('credits')->default(0)->nullable();
             $table->integer('dashboard_preferences')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }
