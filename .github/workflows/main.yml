@@ -1,34 +1,24 @@
-name: Deploy Laravel to Shared Hosting
+name: Deploy via SFTP
 
 on:
   push:
     branches:
-      - main  # Jalankan action pada push ke branch 'main'
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    - name: Deploy using rsync
-      run: |
-        rsync -avzr --delete --exclude=".git" --exclude=".github" -e 'ssh -p 6401 -o StrictHostKeyChecking=no' ./ dfvosxil@nioke-studio.my.id:/home/dfvosxil/be-swap-academy.nioke-studio.my.id
-
-    - name: Install Dependencies on Server
-      run: |
-        ssh -p 6401 -o StrictHostKeyChecking=no dfvosxil@nioke-studio.my.id <<EOF
-        cd /home/dfvosxil/be-swap-academy.nioke-studio.my.id
-        composer install --no-dev --prefer-dist --optimize-autoloader
-        php artisan migrate --force
-        php artisan config:cache
-        php artisan route:cache
-        php artisan view:cache
-        EOF
+      - name: Upload files via SFTP
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: "-avzr --delete --exclude='.git' --exclude='.github'"
+          path: "./"
+          remote_path: "/home/dfvosxil/be-swap-academy.nioke-studio.my.id"
+          remote_host: ${{ secrets.SFTP_HOST }}
+          remote_user: ${{ secrets.SFTP_USER }}
+          remote_key: ${{ secrets.SFTP_PASSWORD }}
+          remote_port: ${{ secrets.SFTP_PORT }}
