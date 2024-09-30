@@ -15,9 +15,9 @@ jobs:
       - name: Upload files via SFTP
         uses: appleboy/scp-action@v0.1.1
         with:
-          host: nioke-studio.my.id
-          username: dfvosxil
-          password: Nrlmustofa080104  # Menggunakan password untuk SFTP
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASSWORD }}  # Menggunakan password untuk SFTP
           port: 6401
           source: "./"
           target: "/home/dfvosxil/be-swap-academy.nioke-studio.my.id"
