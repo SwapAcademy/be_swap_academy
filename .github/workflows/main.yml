@@ -13,13 +13,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Upload files via SFTP
-        uses: burnett01/rsync-deployments@4.1
+        uses: appleboy/scp-action@v0.1.1
         with:
-          switches: "-avzr --delete --exclude='.git' --exclude='.github'"
-          path: "./"          
-          remote_path: "/home/dfvosxil/be-swap-academy.nioke-studio.my.id"
-          remote_host: nioke-studio.my.id
-          remote_user: dfvosxil
-          remote_key: ${{ secrets.SFTP_PASSWORD }}  # SSH key
-          remote_port: 6401
-          rsh: "ssh -p 6401 -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
+          host: nioke-studio.my.id
+          username: dfvosxil
+          password: Nrlmustofa080104  # Menggunakan password untuk SFTP
+          port: 6401
+          source: "./"
+          target: "/home/dfvosxil/be-swap-academy.nioke-studio.my.id"
+          rm: true
