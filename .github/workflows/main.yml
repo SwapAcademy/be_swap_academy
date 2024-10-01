@@ -40,6 +40,7 @@ jobs:
             sed -i 's/# DB_DATABASE=.*/DB_DATABASE=dfvosxil_swap_academy/' .env
             sed -i 's/# DB_USERNAME=.*/DB_USERNAME=dfvosxil_wp_kkla8/' .env
             sed -i 's/# DB_PASSWORD=.*/DB_PASSWORD=nioke8090/' .env
+            sed -i 's/# DB_PORT=.*/DB_PORT=3306/' .env
             php artisan key:generate
             php artisan jwt:secret --force
             php artisan migrate:fresh --seed            
