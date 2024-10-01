@@ -32,7 +32,7 @@ jobs:
           port: 6401
           script: |
             cd /home/dfvosxil/be-swap-academy.nioke-studio.my.id
-            composer install --no-dev --prefer-dist
+            composer install
             cp .env.example .env
             # Update DB_CONNECTION to mysql and uncomment DB settings
             sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
@@ -42,9 +42,6 @@ jobs:
             sed -i 's/# DB_PASSWORD=.*/DB_PASSWORD=nioke8090/' .env
             php artisan key:generate
             php artisan jwt:secret --force
-            php artisan migrate --force
-            php artisan db:seed --force
+            php artisan migrate:fresh --seed            
             php artisan storage:link
-            php artisan config:cache
-            chmod -R 775 storage bootstrap/cache
-            chown -R www-data:www-data storage bootstrap/cache
+      
