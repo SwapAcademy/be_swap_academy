@@ -39,6 +39,7 @@ jobs:
             sed -i 's/DB_HOST=.*/DB_HOST=109.110.188.7/' .env
             php artisan key:generate
             php artisan jwt:secret --force
+            composer update --no-dev --prefer-dist
             composer install --no-dev --prefer-dist
             php artisan migrate --force
             php artisan db:seed --force
