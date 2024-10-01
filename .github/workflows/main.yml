@@ -31,8 +31,8 @@ jobs:
           password: ${{ secrets.SFTP_PASSWORD }}
           port: 6401
           script: |
-            composer install --no-dev --prefer-dist
             cd /home/dfvosxil/be-swap-academy.nioke-studio.my.id
+            composer install --no-dev --prefer-dist
             cp .env.example .env
             sed -i 's/DB_DATABASE=.*/DB_DATABASE=dfvosxil_swap_academy/' .env
             sed -i 's/DB_USERNAME=.*/DB_USERNAME=dfvosxil_wp_kkla8/' .env
@@ -40,9 +40,9 @@ jobs:
             sed -i 's/DB_HOST=.*/DB_HOST=109.110.188.7/' .env
             php artisan key:generate
             php artisan jwt:secret --force
-            composer update --no-dev --prefer-dist
             php artisan migrate --force
             php artisan db:seed --force
             php artisan storage:link
+            php artisan config:cache
             chmod -R 775 storage bootstrap/cache
             chown -R www-data:www-data storage bootstrap/cache
