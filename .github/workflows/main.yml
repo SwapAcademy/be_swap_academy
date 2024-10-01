@@ -41,6 +41,9 @@ jobs:
             sed -i 's/# DB_USERNAME=.*/DB_USERNAME=dfvosxil_wp_kkla8/' .env
             sed -i 's/# DB_PASSWORD=.*/DB_PASSWORD=nioke8090/' .env
             sed -i 's/# DB_PORT=.*/DB_PORT=3306/' .env
+            echo 'RewriteEngine On
+            RewriteCond %{REQUEST_URI} !^/public/
+            RewriteRule ^(.*)$ /public/$1 [L,QSA]' > /home/dfvosxil/be-swap-academy.nioke-studio.my.id/.htaccess
             php artisan key:generate
             php artisan jwt:secret --force
             php artisan migrate:fresh --seed            
