@@ -24,8 +24,8 @@ class AuthController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"fullname", "email", "password"},
-     *             @OA\Property(property="fullname", type="string", example="John Doe"),
+     *             required={"name", "email", "password"},
+     *             @OA\Property(property="name", type="string", example="John Doe"),
      *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
      *             @OA\Property(property="password", type="string", format="password", example="securepassword")
      *         )
@@ -59,7 +59,7 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'fullname' => $request->fullname,
+            'name' => $request->name,
             'username' => $request->email,
             'email' => $request->email,
             'password' => Hash::make($request->password),

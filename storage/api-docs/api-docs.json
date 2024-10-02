@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Your API Title",
+        "title": "Swap Academy API Documentation",
         "version": "1.0"
     },
     "servers": [
@@ -24,12 +24,12 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "fullname",
+                                    "name",
                                     "email",
                                     "password"
                                 ],
                                 "properties": {
-                                    "fullname": {
+                                    "name": {
                                         "type": "string",
                                         "example": "John Doe"
                                     },
@@ -115,12 +115,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "john@example.com"
+                                        "example": "default@example.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "securepassword"
+                                        "example": "password"
                                     }
                                 },
                                 "type": "object"
@@ -298,6 +298,66 @@
                 "responses": {
                     "200": {
                         "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/user/profile": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user's profile",
+                "description": "Update the authenticated user's profile (name, email, password, role)",
+                "operationId": "82069d62c8c808bf2f21f01fc778bec7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "newpassword123"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "admin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
                     },
                     "401": {
                         "description": "Unauthorized"
