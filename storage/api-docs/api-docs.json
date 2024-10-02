@@ -349,6 +349,84 @@
                 ]
             }
         },
+        "/api/course/category": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "summary": "Get courses by category",
+                "description": "Returns a list of courses based on a given category",
+                "operationId": "c76dfb6c908e1fb7abcbea12070d761f",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Category name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "Course ID",
+                                                "type": "integer"
+                                            },
+                                            "title": {
+                                                "description": "Course title",
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "description": "Course description",
+                                                "type": "string"
+                                            },
+                                            "category": {
+                                                "description": "Course category",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Validation error messages",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/api/users": {
             "get": {
                 "tags": [

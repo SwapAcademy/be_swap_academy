@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
 {
@@ -90,5 +91,87 @@ class CourseController extends Controller
 
         // Return response dalam bentuk JSON atau view, tergantung kebutuhan
         return response()->json(['data' => $courses]);
+    }
+    /**
+     * @OA\Get(
+     *     path="/api/course/category",
+     *     tags={"Course"},
+     *     summary="Get courses by category",
+     *     description="Returns a list of courses based on a given category",
+     *     security={{"Bearer": {}}},
+     *     @OA\Parameter(
+     *         name="category",
+     *         in="query",
+     *         description="Category name",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="id",
+     *                     type="integer",
+     *                     description="Course ID"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="title",
+     *                     type="string",
+     *                     description="Course title"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="description",
+     *                     type="string",
+     *                     description="Course description"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="category",
+     *                     type="string",
+     *                     description="Course category"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="errors",
+     *                 type="object",
+     *                 description="Validation error messages"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
+    public function getCourseByCategory(Request $request)
+    {
+
+        $credentials = $request->only('category');
+
+        $validator = Validator::make($credentials, [
+            'category' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages()], 400);
+        }
+
+        // Mengambil kursus berdasarkan kategori yang diberikan
+        $courses = Course::where('category', $request->category)->get();
+
+        // Mengembalikan respons JSON dari data kursus
+        return response()->json(['data' => $courses], 200);
     }
 }

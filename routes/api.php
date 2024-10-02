@@ -34,5 +34,6 @@ Route::group(['middleware' => 'jwt.verify'], function ($router) {
 
     // course
     Route::get('course', [CourseController::class, 'getAllCourse']);
+    Route::get('course/category', [CourseController::class, 'getCourseByCategory']);
     Route::get('course/{userId}', [CourseController::class, 'getCourseByUser']);
 });
