@@ -28,7 +28,7 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => 'jwt.verify'], function ($router) {
-    Route::get('getUsersById/{usersId}', [AuthController::class, 'getUsersbyId']);
+    Route::get('getUsersById/{usersId}', [UserController::class, 'getUsersbyId']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('users', [UserController::class, 'getAllUsers']);
 
