@@ -287,6 +287,68 @@
                 ]
             }
         },
+        "/api/user/{userId}/courses": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "summary": "Get courses by user ID",
+                "description": "Returns a list of courses associated with a user",
+                "operationId": "30e5d518be20cebb4e6d091b2e85693e",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "course": {
+                                                "description": "Course details",
+                                                "type": "object"
+                                            },
+                                            "progress": {
+                                                "description": "User's progress in the course",
+                                                "type": "integer"
+                                            },
+                                            "enrollment_at": {
+                                                "description": "Date when the user enrolled",
+                                                "type": "string",
+                                                "format": "date"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/api/users": {
             "get": {
                 "tags": [
