@@ -100,4 +100,45 @@ class UserController extends Controller
 
         return response()->json(['data' => new UserResource($user)], 200);
     }
+    /**
+     * @OA\Get(
+     *     path="/api/getUsersById/{id}",
+     *     tags={"Users"},
+     *     summary="Get a user by ID",
+     *     description="Returns a single user by their ID",
+     *     security={{"Bearer": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the user",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="John Doe"),
+     *                 @OA\Property(property="email", type="string", format="email", example="johndoe@example.com"),
+     *                 @OA\Property(property="role", type="string", example="admin")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
+    public function getUsersbyId($usersId)
+    {
+        $user = User::find($usersId);
+        return response()->json(['data' => $user], 200);
+    }
 }
