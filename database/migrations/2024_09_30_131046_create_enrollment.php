@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('course_id')->constrained('course');
             $table->date('enrollment_at');
             $table->integer('progress')->default(0);
+            $table->enum('status', CategoryEnum::getValues())->default(StatusEnum::Selesai);
             $table->timestamps();
         });
     }

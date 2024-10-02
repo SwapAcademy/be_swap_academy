@@ -17,6 +17,7 @@ class Enrollment extends Model
         'course_id',
         'enrollment_at',
         'progress',
+        'status'
     ];
 
     public function user(): BelongsTo
