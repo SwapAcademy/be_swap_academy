@@ -23,6 +23,8 @@ class CourseFactory extends Factory
             'category' => $this->faker->randomElement(CategoryEnum::getValues()),
             'description' => $this->faker->paragraph(3),
             'difficulty_level' => $this->faker->randomElement(DiffEnum::getValues()),
+            'redemtions' => $this->faker->randomDigit('2'),
+            'point_earn' => $this->faker->randomDigit('3'),
             'duration' => $this->faker->numberBetween(1, 12),
             'credits_required' => $this->faker->numberBetween(1, 3),
         ];
