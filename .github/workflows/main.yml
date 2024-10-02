@@ -46,6 +46,6 @@ jobs:
             RewriteRule ^(.*)$ /public/$1 [L,QSA]' > /home/dfvosxil/be-swap-academy.nioke-studio.my.id/.htaccess
             php artisan key:generate
             php artisan jwt:secret --force
-            php artisan migrate:fresh --seed            
+            php artisan migrate:fresh --seed
             php artisan storage:link
-      
+            php artisan l5-swagger:generate

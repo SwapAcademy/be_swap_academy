@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\API\CourseController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,5 @@ Route::post('login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'jwt.verify'], function ($router) {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('users', [UserController::class, 'getAllUsers']);
+    Route::get('course', [CourseController::class, 'getAllCourse']);
 });
