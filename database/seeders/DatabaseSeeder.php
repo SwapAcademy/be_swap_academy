@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             TransactionSeeder::class,
             CourseSeeder::class,
             ChallengeSeeder::class,
+            VideoSeeder::class,
         ]);
     }
 }

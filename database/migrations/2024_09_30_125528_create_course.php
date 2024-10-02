@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->text('description');
             $table->enum('difficulty_level', DiffEnum::getValues())->default(DiffEnum::BEGINNER);
             $table->integer('duration');
+            $table->integer('redemtions');
+            $table->integer('point_earn');
             $table->integer('credits_required');
             $table->timestamps();
         });
