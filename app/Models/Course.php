@@ -17,6 +17,8 @@ class Course extends Model
         'category',
         'description',
         'difficulty_level',
+        'redemtions',
+        'point_earn',
         'duration',
         'credits_required',
     ];
