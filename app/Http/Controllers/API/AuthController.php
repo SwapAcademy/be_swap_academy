@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enum\User\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -63,7 +64,7 @@ class AuthController extends Controller
             'username' => $request->email,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => "Student",
+            'role' => "user",
         ]);
 
         return response()->json(['message' => 'User created successfully'], 201);
