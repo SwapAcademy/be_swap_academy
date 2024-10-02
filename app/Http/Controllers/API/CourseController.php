@@ -33,7 +33,7 @@ class CourseController extends Controller
     }
     /**
      * @OA\Get(
-     *     path="/api/user/{userId}/courses",
+     *     path="/api/course/{userId}",
      *     tags={"Course"},
      *     summary="Get courses by user ID",
      *     description="Returns a list of courses associated with a user",

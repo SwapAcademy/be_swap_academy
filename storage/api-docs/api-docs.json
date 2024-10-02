@@ -287,14 +287,14 @@
                 ]
             }
         },
-        "/api/user/{userId}/courses": {
+        "/api/course/{userId}": {
             "get": {
                 "tags": [
                     "Course"
                 ],
                 "summary": "Get courses by user ID",
                 "description": "Returns a list of courses associated with a user",
-                "operationId": "30e5d518be20cebb4e6d091b2e85693e",
+                "operationId": "17f72e7c1ed16ab298a0c84a92eddff4",
                 "parameters": [
                     {
                         "name": "userId",
