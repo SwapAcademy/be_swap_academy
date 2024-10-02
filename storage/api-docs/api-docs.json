@@ -264,6 +264,29 @@
                 ]
             }
         },
+        "/api/course": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "summary": "Get list of Course",
+                "description": "Returns a list of Course",
+                "operationId": "c09c21765f8ddd5cab6a54cb493001ba",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/api/users": {
             "get": {
                 "tags": [
@@ -301,6 +324,10 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Course",
+            "description": "Course"
         },
         {
             "name": "Users",

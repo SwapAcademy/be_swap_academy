@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 /**
  * @OA\OpenApi(
- *     @OA\Info(title="Your API Title", version="1.0"),
+ *     @OA\Info(title="Swap Academy API Documentation", version="1.0"),
  *     @OA\Server(url="https://be-swap-academy.nioke-studio.my.id"),
  *     @OA\Components(
  *         @OA\SecurityScheme(
@@ -16,7 +16,6 @@ namespace App\Http\Controllers;
  *     )
  * )
  */
-
 abstract class Controller
 {
     //
