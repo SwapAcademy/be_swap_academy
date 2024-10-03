@@ -178,7 +178,7 @@ class CourseController extends Controller
      * @OA\Post(
      *     path="/api/course/upload-course",
      *     summary="Upload a new course",
-     *     tags={"Courses"},
+     *     tags={"Course"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
