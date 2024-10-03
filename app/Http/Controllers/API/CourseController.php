@@ -409,7 +409,7 @@ class CourseController extends Controller
         $course = Course::where('id', $request->course_id)->first();
 
         // Cek apakah user sudah membeli kursus ini sebelumnya
-        $existingPurchase = Enrollment::where('user_id', $request->user_id)
+        $existingPurchase = Enrollment::where('users_id', $request->user_id)
             ->where('course_id', $request->course_id)
             ->first();
 
