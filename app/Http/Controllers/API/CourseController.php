@@ -425,7 +425,7 @@ class CourseController extends Controller
 
         // Buat entri baru di tabel purchases
         $Enrollment = new Enrollment();
-        $Enrollment->user_id = $request->user_id;
+        $Enrollment->users_id = $request->user_id;
         $Enrollment->course_id = $request->course_id;
         $Enrollment->enrollment_at = now();
         $Enrollment->progress = 0;
