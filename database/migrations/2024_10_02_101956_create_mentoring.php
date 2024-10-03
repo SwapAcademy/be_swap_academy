@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Enum\Course\CategoryEnum;
-
+use App\Enum\Course\StatusEnum;
 
 return new class extends Migration
 {
@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('mentoring_name');
             $table->enum('category', CategoryEnum::getValues())->default(CategoryEnum::TECHNOLOGY);
             $table->text('description');
+            $table->enum('status', StatusEnum::getValues())->default(StatusEnum::COMPLETED);
             $table->date('date');
             $table->timestamps();
         });

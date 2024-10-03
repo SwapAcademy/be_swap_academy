@@ -19,7 +19,7 @@ class VideoFactory extends Factory
     {
         return [
             'course_id' => User::inRandomOrder()->first(),
-            'enrollment_at' => $this->faker->date(),
+            'publish_at' => $this->faker->date(),
         ];
     }
 }

@@ -31,7 +31,7 @@ class CourseController extends Controller
      */
     public function getAllCourse(Request $request)
     {
-        $course = Course::all();
+        $course = Course::with('mentor')->get();
         return response()->json(['data' => $course], 200);
     }
     /**
@@ -387,7 +387,6 @@ class CourseController extends Controller
      *     )
      * )
      */
-
     public function takeCourse(Request $request)
     {
         // Validasi input

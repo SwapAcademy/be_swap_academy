@@ -583,7 +583,7 @@
         "/api/course/uploadVideoByCourse": {
             "post": {
                 "tags": [
-                    "Videos"
+                    "Course"
                 ],
                 "summary": "Upload a video for a specific course",
                 "description": "This endpoint allows you to upload a video file associated with a course.",
@@ -665,6 +665,114 @@
                                         "message": {
                                             "type": "string",
                                             "example": "The selected course_id is invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/course/takeCourse": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "summary": "Purchase a course",
+                "description": "Allows a user to purchase a course using their credits.",
+                "operationId": "takeCourse",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "The ID of the user purchasing the course.",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "course_id": {
+                                        "description": "The ID of the course to be purchased.",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Course purchased successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Course purchased successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Insufficient credits to purchase this course",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Insufficient credits to purchase this course."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Course already purchased",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You have already purchased this course."
                                         }
                                     },
                                     "type": "object"
@@ -830,6 +938,29 @@
                     }
                 ]
             }
+        },
+        "/api/mentoring": {
+            "get": {
+                "tags": [
+                    "Mentoring"
+                ],
+                "summary": "Get list of Mentoring",
+                "description": "Returns a list of Mentoring",
+                "operationId": "823b734ffb4b6262829075e1697f07ef",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -851,12 +982,12 @@
             "description": "Course"
         },
         {
-            "name": "Videos",
-            "description": "Videos"
-        },
-        {
             "name": "Users",
             "description": "Users"
+        },
+        {
+            "name": "Mentoring",
+            "description": "Mentoring"
         }
     ]
 }
