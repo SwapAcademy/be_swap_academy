@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CourseController;
+use App\Http\Controllers\API\MentoringController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,7 @@ Route::group(['middleware' => 'jwt.verify'], function ($router) {
     Route::post('course/uploadVideoByCourse', [CourseController::class, 'uploadVideoByCourse']);
     Route::post('course/takeCourse', [CourseController::class, 'takeCourse']);
     Route::get('course/{userId}', [CourseController::class, 'getCourseByUser']);
+
+    // mentoring
+    Route::get('mentoring', [MentoringController::class, 'showAllMentoring']);
 });
