@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -254,7 +255,7 @@ class CourseController extends Controller
     /**
      * @OA\Post(
      *     path="/api/course/uploadVideoByCourse",
-     *     tags={"Videos"},
+     *     tags={"Course"},
      *     security={{"Bearer": {}}},
      *     summary="Upload a video for a specific course",
      *     description="This endpoint allows you to upload a video file associated with a course.",
@@ -340,5 +341,98 @@ class CourseController extends Controller
 
         // Mengembalikan pesan error jika file video tidak ditemukan
         return response()->json(['message' => 'No video file uploaded.'], 400);
+    }
+    /**
+     * @OA\Post(
+     *     path="/api/course/takeCourse",
+     *     summary="Purchase a course",
+     *     description="Allows a user to purchase a course using their credits.",
+     *     operationId="takeCourse",
+     *     tags={"Course"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user_id", type="integer", example=1, description="The ID of the user purchasing the course."),
+     *             @OA\Property(property="course_id", type="integer", example=1, description="The ID of the course to be purchased.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Course purchased successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Course purchased successfully!")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid input data",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object", @OA\AdditionalProperties(type="array", @OA\Items(type="string")))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Insufficient credits to purchase this course",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Insufficient credits to purchase this course.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=409,
+     *         description="Course already purchased",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="You have already purchased this course.")
+     *         )
+     *     )
+     * )
+     */
+
+    public function takeCourse(Request $request)
+    {
+        // Validasi input
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+
+        // Jika validasi gagal, kembalikan pesan error
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        // Ambil data user
+        $user = User::where('id', $request->user_id)->first();
+
+        // Ambil data course
+        $course = Course::where('id', $request->course_id)->first();
+
+        // Cek apakah user sudah membeli kursus ini sebelumnya
+        $existingPurchase = Enrollment::where('user_id', $request->user_id)
+            ->where('course_id', $request->course_id)
+            ->first();
+
+        if ($existingPurchase) {
+            return response()->json(['message' => 'You have already purchased this course.'], 409);
+        }
+
+
+        // cek apakah course yang dibeli mencukupi credit dari user
+        if ($user->credits < $course->credits_required) {
+            return response()->json(['message' => 'Insufficient credits to purchase this course.'], 403);
+        }
+
+        // Buat entri baru di tabel purchases
+        $Enrollment = new Enrollment();
+        $Enrollment->user_id = $request->user_id;
+        $Enrollment->course_id = $request->course_id;
+        $Enrollment->enrollment_at = now();
+        $Enrollment->progress = 0;
+        $Enrollment->status = 'not started';
+
+        $Enrollment->save();
+
+        // Mengembalikan respons sukses
+        return response()->json(['message' => 'Course purchased successfully!'], 201);
     }
 }
