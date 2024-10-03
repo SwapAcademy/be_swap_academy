@@ -176,28 +176,19 @@ class CourseController extends Controller
     }
     /**
      * @OA\Post(
-     *     path="/api/course/{userId}/upload-course",
+     *     path="/api/course/upload-course",
      *     summary="Upload a new course",
-     *     tags={"Course"},
-     *     description="Endpoint to upload a new course with title, description, category, skill level, and credits required.",
-     *     @OA\Parameter(
-     *         name="userId",
-     *         in="path",
-     *         description="ID of the user (mentor) who is uploading the course",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *         )
-     *     ),
+     *     tags={"Courses"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"title", "description", "category", "skill_level", "credits_required"},
-     *             @OA\Property(property="title", type="string", maxLength=255, example="Introduction to Web Development"),
-     *             @OA\Property(property="description", type="string", maxLength=1000, example="This course covers the basics of web development using HTML, CSS, and JavaScript."),
-     *             @OA\Property(property="category", type="string", enum={"technology", "design", "management"}, example="technology"),
-     *             @OA\Property(property="skill_level", type="string", enum={"beginner", "intermediate", "advanced"}, example="beginner"),
-     *             @OA\Property(property="credits_required", type="integer", example=5)
+     *             required={"user_id", "title", "description", "category", "skill_level", "credits_required"},
+     *             @OA\Property(property="user_id", type="integer", example=1, description="ID of the mentor uploading the course"),
+     *             @OA\Property(property="title", type="string", maxLength=255, example="Introduction to Web Development", description="Title of the course"),
+     *             @OA\Property(property="description", type="string", maxLength=1000, example="This course will teach you the basics of web development.", description="Brief description of the course"),
+     *             @OA\Property(property="category", type="string", enum={"technology", "design", "management"}, example="technology", description="Category of the course"),
+     *             @OA\Property(property="skill_level", type="string", enum={"beginner", "intermediate", "advanced"}, example="beginner", description="Difficulty level of the course"),
+     *             @OA\Property(property="credits_required", type="integer", example=5, description="The number of credits required to enroll in the course")
      *         )
      *     ),
      *     @OA\Response(
@@ -209,17 +200,25 @@ class CourseController extends Controller
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Validation error",
+     *         description="Validation errors",
      *         @OA\JsonContent(
-     *             @OA\Property(property="errors", type="object", example={"title": {"The title field is required."}})
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="user_id", type="array", @OA\Items(type="string", example="The user id field is required.")),
+     *                 @OA\Property(property="title", type="array", @OA\Items(type="string", example="The title field is required.")),
+     *                 @OA\Property(property="description", type="array", @OA\Items(type="string", example="The description field is required.")),
+     *                 @OA\Property(property="category", type="array", @OA\Items(type="string", example="The category field is required.")),
+     *                 @OA\Property(property="skill_level", type="array", @OA\Items(type="string", example="The skill level field is required.")),
+     *                 @OA\Property(property="credits_required", type="array", @OA\Items(type="string", example="The credits required field is required."))
+     *             )
      *         )
      *     )
      * )
      */
-    public function uploadCourse(Request $request, $userId)
+    public function uploadCourse(Request $request)
     {
         // Mendefinisikan validasi untuk semua inputan
         $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
             'title' => 'required|max:255',
             'description' => 'required|max:1000',
             'category' => 'required|in:technology,design,management',
@@ -234,7 +233,7 @@ class CourseController extends Controller
 
         // Insert data ke database (misalnya ke tabel courses)
         $course = new Course();
-        $course->mentor_id = $userId;
+        $course->mentor_id = $request->user_id;
         $course->course_name = $request->title;
         $course->description = $request->description;
         $course->category = $request->category;

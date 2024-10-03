@@ -427,31 +427,20 @@
                 ]
             }
         },
-        "/api/courses/{userId}/upload": {
+        "/api/course/upload-course": {
             "post": {
                 "tags": [
                     "Courses"
                 ],
                 "summary": "Upload a new course",
-                "description": "Endpoint to upload a new course with title, description, category, skill level, and credits required.",
-                "operationId": "949c57bb1ce7273b6034882912476521",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "description": "ID of the user (mentor) who is uploading the course",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
+                "operationId": "149db39c6610321b589f40d7bf8a9ad0",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "user_id",
                                     "title",
                                     "description",
                                     "category",
@@ -459,17 +448,25 @@
                                     "credits_required"
                                 ],
                                 "properties": {
+                                    "user_id": {
+                                        "description": "ID of the mentor uploading the course",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "title": {
+                                        "description": "Title of the course",
                                         "type": "string",
                                         "maxLength": 255,
                                         "example": "Introduction to Web Development"
                                     },
                                     "description": {
+                                        "description": "Brief description of the course",
                                         "type": "string",
                                         "maxLength": 1000,
-                                        "example": "This course covers the basics of web development using HTML, CSS, and JavaScript."
+                                        "example": "This course will teach you the basics of web development."
                                     },
                                     "category": {
+                                        "description": "Category of the course",
                                         "type": "string",
                                         "enum": [
                                             "technology",
@@ -479,6 +476,7 @@
                                         "example": "technology"
                                     },
                                     "skill_level": {
+                                        "description": "Difficulty level of the course",
                                         "type": "string",
                                         "enum": [
                                             "beginner",
@@ -488,6 +486,7 @@
                                         "example": "beginner"
                                     },
                                     "credits_required": {
+                                        "description": "The number of credits required to enroll in the course",
                                         "type": "integer",
                                         "example": 5
                                     }
@@ -515,18 +514,57 @@
                         }
                     },
                     "400": {
-                        "description": "Validation error",
+                        "description": "Validation errors",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "errors": {
-                                            "type": "object",
-                                            "example": {
-                                                "title": [
-                                                    "The title field is required."
-                                                ]
-                                            }
+                                            "properties": {
+                                                "user_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The user id field is required."
+                                                    }
+                                                },
+                                                "title": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The title field is required."
+                                                    }
+                                                },
+                                                "description": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The description field is required."
+                                                    }
+                                                },
+                                                "category": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The category field is required."
+                                                    }
+                                                },
+                                                "skill_level": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The skill level field is required."
+                                                    }
+                                                },
+                                                "credits_required": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The credits required field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
