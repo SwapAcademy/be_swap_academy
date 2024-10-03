@@ -179,6 +179,7 @@ class CourseController extends Controller
      *     path="/api/course/upload-course",
      *     summary="Upload a new course",
      *     tags={"Course"},
+     *     security={{"Bearer": {}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
