@@ -255,6 +255,7 @@ class CourseController extends Controller
      * @OA\Post(
      *     path="/api/course/uploadVideoByCourse",
      *     tags={"Videos"},
+     *     security={{"Bearer": {}}},
      *     summary="Upload a video for a specific course",
      *     description="This endpoint allows you to upload a video file associated with a course.",
      *     @OA\RequestBody(

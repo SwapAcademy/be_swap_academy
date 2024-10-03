@@ -580,14 +580,14 @@
                 ]
             }
         },
-        "/api/upload-video": {
+        "/api/course/uploadVideoByCourse": {
             "post": {
                 "tags": [
                     "Videos"
                 ],
                 "summary": "Upload a video for a specific course",
                 "description": "This endpoint allows you to upload a video file associated with a course.",
-                "operationId": "4c9654809ede5c2257e631183fb58b5c",
+                "operationId": "d31d6390dc7434972b0e5de2bd525a5a",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -672,7 +672,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/api/users": {
