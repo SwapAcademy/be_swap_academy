@@ -2,15 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Course;
-use App\Models\Enrollment;
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\Enrollment;
-
+use App\Models\Video;
 
 class VideoSeeder extends Seeder
 {
@@ -34,6 +31,6 @@ class VideoSeeder extends Seeder
 
     public function run(): void
     {
-        Course::factory()->count(10)->create();
+        Video::factory()->count(10)->create();
     }
 }

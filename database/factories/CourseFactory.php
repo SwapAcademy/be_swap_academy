@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enum\Course\CategoryEnum;
 use App\Enum\Course\DiffEnum;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +21,7 @@ class CourseFactory extends Factory
     {
         return [
             'course_name' => $this->faker->sentence(3),
+            'mentor_id' => User::inRandomOrder()->first(),
             'category' => $this->faker->randomElement(CategoryEnum::getValues()),
             'description' => $this->faker->paragraph(3),
             'difficulty_level' => $this->faker->randomElement(DiffEnum::getValues()),

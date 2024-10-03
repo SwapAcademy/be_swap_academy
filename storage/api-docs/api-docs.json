@@ -427,6 +427,116 @@
                 ]
             }
         },
+        "/api/courses/{userId}/upload": {
+            "post": {
+                "tags": [
+                    "Courses"
+                ],
+                "summary": "Upload a new course",
+                "description": "Endpoint to upload a new course with title, description, category, skill level, and credits required.",
+                "operationId": "949c57bb1ce7273b6034882912476521",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user (mentor) who is uploading the course",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "category",
+                                    "skill_level",
+                                    "credits_required"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Introduction to Web Development"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "maxLength": 1000,
+                                        "example": "This course covers the basics of web development using HTML, CSS, and JavaScript."
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "enum": [
+                                            "technology",
+                                            "design",
+                                            "management"
+                                        ],
+                                        "example": "technology"
+                                    },
+                                    "skill_level": {
+                                        "type": "string",
+                                        "enum": [
+                                            "beginner",
+                                            "intermediate",
+                                            "advanced"
+                                        ],
+                                        "example": "beginner"
+                                    },
+                                    "credits_required": {
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Course uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Course uploaded successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "title": [
+                                                    "The title field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/users": {
             "get": {
                 "tags": [
@@ -596,6 +706,10 @@
         {
             "name": "Course",
             "description": "Course"
+        },
+        {
+            "name": "Courses",
+            "description": "Courses"
         },
         {
             "name": "Users",

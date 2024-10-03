@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('video', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('users_id')->constrained('users');
+            $table->string("path")->nullable();
             $table->foreignId('course_id')->constrained('course');
             $table->date('publish_at');
             $table->timestamps();

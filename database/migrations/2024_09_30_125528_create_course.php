@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('course', function (Blueprint $table) {
             $table->id();
-            $table->string("path")->nullable();
+            $table->unsignedBigInteger("mentor_id");
             $table->string('course_name');
             $table->enum('category', CategoryEnum::getValues())->default(CategoryEnum::TECHNOLOGY);
             $table->text('description');
@@ -24,6 +24,8 @@ return new class extends Migration {
             $table->integer('point_earn');
             $table->integer('credits_required');
             $table->timestamps();
+
+            $table->foreign('mentor_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

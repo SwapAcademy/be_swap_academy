@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class VideoFactory extends Factory
     public function definition(): array
     {
         return [
-          'enrollment_at' => $this->faker->date(),
+            'course_id' => User::inRandomOrder()->first(),
+            'enrollment_at' => $this->faker->date(),
         ];
     }
 }

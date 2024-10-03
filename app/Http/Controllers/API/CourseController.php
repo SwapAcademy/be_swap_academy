@@ -174,4 +174,79 @@ class CourseController extends Controller
         // Mengembalikan respons JSON dari data kursus
         return response()->json(['data' => $courses], 200);
     }
+    /**
+     * @OA\Post(
+     *     path="/api/courses/{userId}/upload",
+     *     summary="Upload a new course",
+     *     tags={"Courses"},
+     *     description="Endpoint to upload a new course with title, description, category, skill level, and credits required.",
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         description="ID of the user (mentor) who is uploading the course",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"title", "description", "category", "skill_level", "credits_required"},
+     *             @OA\Property(property="title", type="string", maxLength=255, example="Introduction to Web Development"),
+     *             @OA\Property(property="description", type="string", maxLength=1000, example="This course covers the basics of web development using HTML, CSS, and JavaScript."),
+     *             @OA\Property(property="category", type="string", enum={"technology", "design", "management"}, example="technology"),
+     *             @OA\Property(property="skill_level", type="string", enum={"beginner", "intermediate", "advanced"}, example="beginner"),
+     *             @OA\Property(property="credits_required", type="integer", example=5)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Course uploaded successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Course uploaded successfully!")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object", example={"title": {"The title field is required."}})
+     *         )
+     *     )
+     * )
+     */
+    public function uploadCourse(Request $request, $userId)
+    {
+        // Mendefinisikan validasi untuk semua inputan
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:255',
+            'description' => 'required|max:1000',
+            'category' => 'required|in:technology,design,management',
+            'skill_level' => 'required|in:beginner,intermediate,advanced',
+            'credits_required' => 'required|numeric|min:0',
+        ]);
+
+        // Jika validasi gagal, kembalikan respons dengan pesan error
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        // Insert data ke database (misalnya ke tabel courses)
+        $course = new Course();
+        $course->mentor_id = $userId;
+        $course->course_name = $request->title;
+        $course->description = $request->description;
+        $course->category = $request->category;
+        $course->difficulty_level = $request->skill_level;
+        $course->duration = 0;
+        $course->credits_required = $request->credits_required;
+        $course->redemtions = 0;
+        $course->point_earn = 0;
+        $course->created_at = now();
+
+        $course->save();
+
+        return response()->json(['message' => 'Course uploaded successfully!']);
+    }
 }
