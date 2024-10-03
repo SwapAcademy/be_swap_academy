@@ -346,6 +346,7 @@ class CourseController extends Controller
      * @OA\Post(
      *     path="/api/course/takeCourse",
      *     summary="Purchase a course",
+     *     security={{"Bearer": {}}},
      *     description="Allows a user to purchase a course using their credits.",
      *     operationId="takeCourse",
      *     tags={"Course"},
