@@ -29,4 +29,9 @@ class Enrollment extends Model
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
+
+    public function mentoring(): BelongsTo
+    {
+        return $this->belongsTo(Mentoring::class, 'mentoring_id');
+    }
 }

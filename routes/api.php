@@ -43,4 +43,5 @@ Route::group(['middleware' => 'jwt.verify'], function ($router) {
 
     // mentoring
     Route::get('mentoring', [MentoringController::class, 'showAllMentoring']);
+    Route::get('mentoring/{userId}', [MentoringController::class, 'getMentoringByUser']);
 });

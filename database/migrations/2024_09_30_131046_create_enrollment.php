@@ -15,7 +15,8 @@ return new class extends Migration {
         Schema::create('enrollment', function (Blueprint $table) {
             $table->id();
             $table->foreignId('users_id')->constrained('users');
-            $table->foreignId('course_id')->constrained('course');
+            $table->foreignId('course_id')->nullable()->constrained('course');
+            $table->foreignId('mentor_id')->nullable()->constrained('users');
             $table->date('enrollment_at');
             $table->integer('progress')->default(0);
             $table->enum('status', StatusEnum::getValues())->default(StatusEnum::COMPLETED);
