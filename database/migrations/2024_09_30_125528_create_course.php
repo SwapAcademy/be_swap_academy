@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('course', function (Blueprint $table) {
             $table->id();
+            $table->string("path")->nullable();
             $table->string('course_name');
             $table->enum('category', CategoryEnum::getValues())->default(CategoryEnum::TECHNOLOGY);
             $table->text('description');

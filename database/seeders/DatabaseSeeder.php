@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,
             ChallengeSeeder::class,
             VideoSeeder::class,
+            MentoringSeeder::class,
         ]);
     }
 }

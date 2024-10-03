@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enum\Course\StatusEnum;
+
 
 return new class extends Migration {
     /**
@@ -16,6 +18,7 @@ return new class extends Migration {
             $table->foreignId('course_id')->constrained('course');
             $table->date('enrollment_at');
             $table->integer('progress')->default(0);
+            $table->enum('status', StatusEnum::getValues())->default(StatusEnum::COMPLETED);
             $table->timestamps();
         });
     }

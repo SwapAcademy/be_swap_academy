@@ -3,12 +3,13 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Enum\Course\StatusEnum;
+use App\Enum\Course\CategoryEnum;
+
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class EnrollmentFactory extends Factory
+class MentoringFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,9 +19,10 @@ class EnrollmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'enrollment_at' => $this->faker->date(),
-            'progress' => $this->faker->numberBetween(0, 100),
-            'Status' => $this->faker->randomElement(StatusEnum::getValues()),
+            'mentoring_name' => $this->faker->sentence(3),
+            'category' => $this->faker->randomElement(CategoryEnum::getValues()),
+            'description' => $this->faker->paragraph(3),
+            'date' => $this->faker->date(),
         ];
     }
 }
