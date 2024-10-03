@@ -393,7 +393,7 @@ class CourseController extends Controller
         // Validasi input
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',
-            'course_id' => 'required|exists:courses,id',
+            'course_id' => 'required|exists:course,id',
         ]);
 
 
