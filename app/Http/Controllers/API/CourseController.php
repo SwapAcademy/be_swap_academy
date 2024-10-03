@@ -176,7 +176,7 @@ class CourseController extends Controller
     }
     /**
      * @OA\Post(
-     *     path="/api/courses/{userId}/upload",
+     *     path="/api/course/{userId}/upload-course",
      *     summary="Upload a new course",
      *     tags={"Course"},
      *     description="Endpoint to upload a new course with title, description, category, skill level, and credits required.",
