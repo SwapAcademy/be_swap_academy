@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Enrollment;
 use App\Models\Mentoring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MentoringController extends Controller
 {
@@ -120,5 +121,88 @@ class MentoringController extends Controller
 
         // Return response dalam bentuk JSON atau view, tergantung kebutuhan
         return response()->json(['data' => $Mentoring]);
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/mentoring/category",
+     *     tags={"Mentoring"},
+     *     summary="Get mentoring by category",
+     *     description="Returns a list of mentorings based on a given category",
+     *     security={{"Bearer": {}}},
+     *     @OA\Parameter(
+     *         name="category",
+     *         in="query",
+     *         description="Category name",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="id",
+     *                     type="integer",
+     *                     description="Mentoring ID"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="mentor_name",
+     *                     type="string",
+     *                     description="Mentor's name"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="course",
+     *                     type="string",
+     *                     description="Course associated with the mentoring"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="category",
+     *                     type="string",
+     *                     description="Mentoring category"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="errors",
+     *                 type="object",
+     *                 description="Validation error messages"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
+    public function getMentoringByCategory(Request $request)
+    {
+        $credentials = $request->only('category');
+
+        $validator = Validator::make($credentials, [
+            'category' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages()], 400);
+        }
+
+        // Mengambil mentoring berdasarkan kategori yang diberikan
+        $mentorings = Mentoring::where('category', $request->category)->get();
+
+        // Mengembalikan respons JSON dari data mentoring
+        return response()->json(['data' => $mentorings], 200);
     }
 }

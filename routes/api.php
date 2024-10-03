@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CourseController;
 use App\Http\Controllers\API\MentoringController;
 use App\Http\Controllers\API\UserController;
+use App\Models\Mentoring;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,4 +45,5 @@ Route::group(['middleware' => 'jwt.verify'], function ($router) {
     // mentoring
     Route::get('mentoring', [MentoringController::class, 'showAllMentoring']);
     Route::get('mentoring/{userId}', [MentoringController::class, 'getMentoringByUser']);
+    Route::get('mentoring/category', [MentoringController::class, 'getMentoringByCategory']);
 });
