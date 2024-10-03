@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -248,5 +249,95 @@ class CourseController extends Controller
         $course->save();
 
         return response()->json(['message' => 'Course uploaded successfully!']);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/course/uploadVideoByCourse",
+     *     tags={"Videos"},
+     *     summary="Upload a video for a specific course",
+     *     description="This endpoint allows you to upload a video file associated with a course.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="video",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="The video file to be uploaded"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="course_id",
+     *                     type="integer",
+     *                     description="The ID of the course to which the video belongs"
+     *                 ),
+     *                 required={"video", "course_id"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Video uploaded successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Video uploaded successfully!"),
+     *             @OA\Property(property="video_path", type="string", example="videos/1624362337_video.mp4")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Validation error or no video uploaded",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object"),
+     *             @OA\Property(property="message", type="string", example="No video file uploaded.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Course not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object"),
+     *             @OA\Property(property="message", type="string", example="The selected course_id is invalid.")
+     *         )
+     *     )
+     * )
+     */
+    public function uploadVideoByCourse(Request $request)
+    {
+        // Validasi input
+        $validator = Validator::make($request->all(), [
+            'video' => 'required|mimes:mp4,mov,avi,wmv|max:10240', // batas maksimal ukuran 10 MB
+            'course_id' => 'required|exists:course,id',
+        ]);
+
+        // Jika validasi gagal, kembalikan pesan error
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        // Memeriksa apakah file video diunggah
+        if ($request->hasFile('video')) {
+            // Mengambil file video dan menyimpan dengan nama yang unik
+            $video = $request->file('video');
+            $videoName = time() . '_' . $video->getClientOriginalName();
+            $videoPath = $video->storeAs('videos', $videoName, 'public');
+
+            // Menyimpan data video ke database
+            $videoModel = new Video();
+            $videoModel->course_id = $request->course_id;
+            $videoModel->path = $videoPath;
+            $videoModel->publish_at = now();
+            $videoModel->save();
+
+            // Mengembalikan respons sukses dengan path video
+            return response()->json([
+                'message' => 'Video uploaded successfully!',
+                'video_path' => $videoPath,
+            ], 200);
+        }
+
+        // Mengembalikan pesan error jika file video tidak ditemukan
+        return response()->json(['message' => 'No video file uploaded.'], 400);
     }
 }

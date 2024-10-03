@@ -430,7 +430,7 @@
         "/api/course/upload-course": {
             "post": {
                 "tags": [
-                    "Courses"
+                    "Course"
                 ],
                 "summary": "Upload a new course",
                 "operationId": "149db39c6610321b589f40d7bf8a9ad0",
@@ -565,6 +565,106 @@
                                                 }
                                             },
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/upload-video": {
+            "post": {
+                "tags": [
+                    "Videos"
+                ],
+                "summary": "Upload a video for a specific course",
+                "description": "This endpoint allows you to upload a video file associated with a course.",
+                "operationId": "4c9654809ede5c2257e631183fb58b5c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "video",
+                                    "course_id"
+                                ],
+                                "properties": {
+                                    "video": {
+                                        "description": "The video file to be uploaded",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "course_id": {
+                                        "description": "The ID of the course to which the video belongs",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Video uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Video uploaded successfully!"
+                                        },
+                                        "video_path": {
+                                            "type": "string",
+                                            "example": "videos/1624362337_video.mp4"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error or no video uploaded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No video file uploaded."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Course not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The selected course_id is invalid."
                                         }
                                     },
                                     "type": "object"
@@ -746,8 +846,8 @@
             "description": "Course"
         },
         {
-            "name": "Courses",
-            "description": "Courses"
+            "name": "Videos",
+            "description": "Videos"
         },
         {
             "name": "Users",

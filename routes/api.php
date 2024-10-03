@@ -36,5 +36,6 @@ Route::group(['middleware' => 'jwt.verify'], function ($router) {
     Route::get('course', [CourseController::class, 'getAllCourse']);
     Route::get('course/category', [CourseController::class, 'getCourseByCategory']);
     Route::post('course/upload-course', [CourseController::class, 'uploadCourse']);
+    Route::post('course/uploadVideoByCourse', [CourseController::class, 'uploadVideoByCourse']);
     Route::get('course/{userId}', [CourseController::class, 'getCourseByUser']);
 });
