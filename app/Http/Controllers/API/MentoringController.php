@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Mentoring;
 use Illuminate\Http\Request;
 
 class MentoringController extends Controller
 {
-
     /**
      * @OA\Get(
      *     path="/api/mentoring",
@@ -29,16 +29,5 @@ class MentoringController extends Controller
     {
         $mentoring = Mentoring::all();
         return response()->json(['data' => $mentoring], 200);
-    }
-
-    public function getMentoringByUser(Request $request, $userId)
-    {
-        // Ambil semua kursus yang terkait dengan pengguna berdasarkan ID
-        $courses = Enrollment::where('users_id', $userId)
-            ->with('course') // Asumsikan relasi 'course' ada di model Enrollment
-            ->get();
-
-        // Return response dalam bentuk JSON atau view, tergantung kebutuhan
-        return response()->json(['data' => $courses]);
     }
 }
